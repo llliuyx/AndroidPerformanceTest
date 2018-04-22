@@ -7,3 +7,11 @@ env LDFLAGS="-L$(brew --prefix openssl)/lib" \
 CFLAGS="-I$(brew --prefix openssl)/include" \
 SWIG_FEATURES="-cpperraswarn -includeall -I$(brew --prefix openssl)/include" \
 pip install m2crypto
+
+参考文档
+testerhome: https://testerhome.com/topics/node32
+方向与框架：https://testerhome.com/topics/10795
+CPU：https://testerhome.com/topics/10796
+UI流畅度：https://testerhome.com/topics/10823
+内存：https://testerhome.com/topics/10823
+android 端取 cpu,fps,men,wifi/gprs 流量等值：https://testerhome.com/topics/9513

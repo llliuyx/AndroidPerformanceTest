@@ -4,28 +4,30 @@
 import threading
 import re
 from utils.Adb import Adb
-from utils.robot import Robot
+from performancebasetest.test_case import PerformanceTestCase
+from abc import ABCMeta, abstractmethod
 
-class LaunchSpeedTest(object):
+
+class LaunchSpeedTest(PerformanceTestCase):
     """
     启动时间测试基础类
     """
-    def __init__(self, package_name, activity_name, device_serial):
-        self.package_name = package_name
-        self.activity_name = activity_name
-        self.device_serial = device_serial
+    __metaclass__ = ABCMeta
+    def __init__(self, package_name, activity_name, device_serial, log=None):
+        super(LaunchSpeedTest, self).__init__(package_name, activity_name, device_serial, log)
         self.is_finished = False
         self.__launch_speed_list = []
-        self.robot = Robot(package_name, activity_name, device_serial)
 
     def set_up(self):
         self.exec_logcat()
         self.start_collect_data()
 
+    @abstractmethod
     def test(self):
         pass
 
     def tear_down(self):
+        print self.__launch_speed_list
         pass
 
     def exec_logcat(self):
@@ -39,9 +41,6 @@ class LaunchSpeedTest(object):
     def start_collect_data(self):
         self.launch_speed_collect_thread = threading.Thread(target=self.__collect_data, name="launch_speed_collect_thread")
         self.launch_speed_collect_thread.start()
-
-    # def finish_collect_data(self):
-        # self.launch_speed_collect_thread.join()
 
     def __collect_data(self, thread_name="launch_speed_collect_thread"):
         print "start the thread: ", thread_name

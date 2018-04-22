@@ -1,0 +1,11 @@
+case_dir: ./testcases/
+suite:
+  - name: test_meituan_suite
+    case:
+      - test_meituan_launch_speed
+      - test_meituan_cpu_usage
+
+  - name: test_dianping_suite
+    case:
+      - test_dianping_launch_speed
+      - test_dianping_cpu_usage
