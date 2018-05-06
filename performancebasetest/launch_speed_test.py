@@ -13,22 +13,39 @@ class LaunchSpeedTest(PerformanceTestCase):
     启动时间测试基础类
     """
     __metaclass__ = ABCMeta
-    def __init__(self, package_name, activity_name, device_serial, log=None):
-        super(LaunchSpeedTest, self).__init__(package_name, activity_name, device_serial, log)
-        self.is_finished = False
+    def __init__(self, package_name, activity_name, device_serial, case_chinese_name, log=None):
+        super(LaunchSpeedTest, self).__init__(package_name, activity_name, device_serial, case_chinese_name, log)
+        self.is_finished = True
         self.__launch_speed_list = []
 
+    @abstractmethod
     def set_up(self):
-        self.exec_logcat()
-        self.start_collect_data()
+        pass
 
     @abstractmethod
     def test(self):
         pass
 
+    @abstractmethod
     def tear_down(self):
-        print self.__launch_speed_list
         pass
+
+    @property
+    def type(self):
+        return "launch"
+
+    def start(self):
+        self.is_finished = False
+        self.exec_logcat()
+        self.start_collect_data()
+
+    def end(self):
+        self.is_finished = True
+        print self.results
+
+    @property
+    def results(self):
+        return self.__launch_speed_list
 
     def exec_logcat(self):
         logcat_cmd = "logcat -v time ActivityManager:I *:S"
@@ -43,7 +60,6 @@ class LaunchSpeedTest(PerformanceTestCase):
         self.launch_speed_collect_thread.start()
 
     def __collect_data(self, thread_name="launch_speed_collect_thread"):
-        print "start the thread: ", thread_name
         DISPLAYE_TAG = "Displayed"
 
         def get_launch_speed_from_line(log_line):

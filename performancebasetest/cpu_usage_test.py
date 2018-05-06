@@ -4,32 +4,54 @@
 from performancebasetest.test_case import PerformanceTestCase
 import threading
 import time
+from abc import ABCMeta, abstractmethod
 
 class CPUUsageTest(PerformanceTestCase):
     """
     CPU耗时测试基础类
     """
-    def __init__(self, package_name, activity_name, device_serial, log=None):
-        super(CPUUsageTest, self).__init__(package_name, activity_name, device_serial, log)
-        self.is_finished = False
+    __metaclass__ = ABCMeta
+    def __init__(self, package_name, activity_name, device_serial, case_chinese_name, log=None):
+        super(CPUUsageTest, self).__init__(package_name, activity_name, device_serial, case_chinese_name, log)
+        self.is_finished = True
         self.__jiffs_list = []
         self.pid = self.adb_tools.get_pid(self.package_name)
         self.is_first = True
 
+    @abstractmethod
     def set_up(self):
-        self.timer = threading.Timer(1, self.__fun_get_jiffs)
-        self.timer.start()
+        pass
 
+    @abstractmethod
     def test(self):
         pass
 
+    @abstractmethod
     def tear_down(self):
-        print self.__jiffs_list
         pass
 
-    def __fun_get_jiffs(self):
-        self.timer = threading.Timer(5, self.__fun_get_jiffs)
+    @property
+    def type(self):
+        return "cpu"
+
+    @property
+    def results(self):
+        return self.__jiffs_list
+
+    def start(self):
+        self.is_finished = False
+        self.timer = threading.Timer(1, self.__fun_get_jiffs)
         self.timer.start()
+
+    def end(self):
+        self.is_finished = True
+        print self.results
+
+    def __fun_get_jiffs(self):
+        if not self.is_finished:
+            self.timer = threading.Timer(5, self.__fun_get_jiffs)
+            self.timer.start()
+
         current_timestamp = time.time()
         utime, stime = self.__get_jiffs()
 
@@ -54,7 +76,6 @@ class CPUUsageTest(PerformanceTestCase):
         # print output
         if not output:
             return -1, -1
-        # self.log.info(output)
         list_output = output.split()
         try:
             utime = int(list_output[13])
@@ -73,6 +94,9 @@ class JiffsUnit(object):
 
     def __str__(self):
         return "%s, utime: %s, stime: %s" %(self.format_time(), str(self.utime), str(self.stime))
+
+    def __repr__(self):
+        return "{\"utime\": %s, \"stime\": %s}" % (str(self.utime), str(self.stime))
 
     def format_time(self):
         return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(self.timestamp))

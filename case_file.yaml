@@ -1,3 +1,6 @@
+task_id: 87
+run_type: release
+device_serial: KFZH89MZ5LQ8YLDA
 case_dir: ./testcases/
 suite:
   - name: test_meituan_suite

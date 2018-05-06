@@ -7,7 +7,8 @@ from utils.robot import Robot
 class PerformanceTestSuite(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, package_name, activity_name, device_serial):
+    def __init__(self, package_name, activity_name, device_serial, app_name):
+        self.app_name = app_name
         self.package_name = package_name
         self.activity_name = activity_name
         self.device_serial = device_serial
