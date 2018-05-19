@@ -8,13 +8,15 @@ from performancebasetest.test_suite import PerformanceTestSuite
 from performancebasetest.test_case import PerformanceTestCase
 from utils.log_handler import get_logger
 from utils.Adb import Adb
-from utils.sql_handler import sql_handler
 from enum import Enum
+from utils.sql_handler import sql_handler
+
 
 class CaseExecutor(object):
     RUN_TYPE_ENUM = Enum("RUN_TIPE_ENUM", ("release", "debug"))
     def __init__(self, case_file):
         self.case_file_dict = yaml.load(open(case_file))
+        print self.case_file_dict
         self.case_package = self.__get_case_package(self.case_file_dict["case_dir"])
         self.logger = get_logger(__name__, console=True)
         self.run_type = self.__get_run_type(self.case_file_dict["run_type"])

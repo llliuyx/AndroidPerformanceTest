@@ -1,4 +1,4 @@
-task_id: 87
+task_id: -1
 run_type: release
 device_serial: KFZH89MZ5LQ8YLDA
 case_dir: ./testcases/
@@ -7,6 +7,8 @@ suite:
     case:
       - test_meituan_launch_speed
       - test_meituan_cpu_usage
+      - test_meituan_memory_usage
+      - test_meituan_traffic_usage
 
   - name: test_dianping_suite
     case:

@@ -3,7 +3,6 @@
 
 from performancebasetest.memory_usage_test import MemoryUsageTest
 from time import sleep
-import time
 
 class MeituanMemoryUsageTest(MemoryUsageTest):
 

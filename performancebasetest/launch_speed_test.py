@@ -85,8 +85,8 @@ class LaunchSpeedTest(PerformanceTestCase):
                 continue
             if self.package_name not in line:
                 continue
-            if self.activity_name not in line:
-                continue
+            # if self.activity_name not in line:
+            #     continue
             print line
 
             print get_launch_speed_from_line(line)

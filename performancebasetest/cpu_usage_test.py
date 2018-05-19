@@ -15,7 +15,6 @@ class CPUUsageTest(PerformanceTestCase):
         super(CPUUsageTest, self).__init__(package_name, activity_name, device_serial, case_chinese_name, log)
         self.is_finished = True
         self.__jiffs_list = []
-        self.pid = self.adb_tools.get_pid(self.package_name)
         self.is_first = True
 
     @abstractmethod
@@ -45,6 +44,7 @@ class CPUUsageTest(PerformanceTestCase):
 
     def end(self):
         self.is_finished = True
+        self.timer.cancel()
         print self.results
 
     def __fun_get_jiffs(self):
@@ -72,7 +72,8 @@ class CPUUsageTest(PerformanceTestCase):
             self.__last_stime = stime
 
     def __get_jiffs(self):
-        output = self.adb_tools.shell("cat /proc/%s/stat" % self.pid).read()
+        pid = self.adb_tools.get_pid(self.package_name)
+        output = self.adb_tools.shell("cat /proc/%s/stat" % pid).read()
         # print output
         if not output:
             return -1, -1

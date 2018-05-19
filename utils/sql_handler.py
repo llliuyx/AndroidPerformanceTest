@@ -2,7 +2,7 @@ import MySQLdb
 
 class SqlHandler(object):
     def __init__(self):
-        self.connect = MySQLdb.connect("localhost", "root", "123456", "android_performance_test", charset='utf8')
+        self.connect = MySQLdb.connect("localhost", "root", "qmy123456", "android_performance_test", charset='utf8')
 
     def create_task(self, phone_model, device_serial, start_time, status):
         insert_sql = "INSERT INTO perf_tasks (device_model, device_serial, start_time, status) VALUES (%s, %s, %s, %s)"
