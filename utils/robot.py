@@ -28,3 +28,6 @@ class Robot(object):
         clear_app_cmd = "pm clear %s" % (pkg_name)
         Adb.adb_shell(self.device_serial, clear_app_cmd)
         sleep(1)
+
+    def sleep(self, seconds):
+        sleep(seconds)
