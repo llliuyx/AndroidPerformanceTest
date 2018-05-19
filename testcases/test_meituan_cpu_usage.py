@@ -20,7 +20,7 @@ class MeituanCPUUsageTest(CPUUsageTest):
 
     def set_up(self):
         self.robot.start_app()
-        time.sleep(5)
+        # time.sleep(5)
 
     def test(self):
         for i in xrange(10):

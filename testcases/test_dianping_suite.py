@@ -18,10 +18,12 @@ class DianpingTestSuite(PerformanceTestSuite):
         device = self.robot.device
 
         oppo.trust_app(self.app_name)
-        time.sleep(.5)
         self.robot.start_app()
-        self.robot.stop_app()
-        self.robot.start_app()
+        # self.robot.stop_app()
+        # self.robot.start_app()
+        popup = device(className="android.widget.ImageView", resourceId="com.dianping.v1:id/img_close")
+        if popup.exists:
+            popup.click()
         time.sleep(5)
         homepage_flag = device(resourceId="com.dianping.v1:id/home_category_layout", className="android.support.v7.widget.RecyclerView")
         assert homepage_flag.exists, "%s Suite失败." % self.app_name

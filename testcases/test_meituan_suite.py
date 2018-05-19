@@ -18,7 +18,6 @@ class MeituanTestSuite(PerformanceTestSuite):
         device = self.robot.device
         self.robot.clear_app()
         oppo.trust_app(self.app_name)
-        time.sleep(.5)
         self.robot.start_app()
         time.sleep(5)
         meituan_home_page = device(resourceId="com.sankuai.meituan:id/headerContent",className="android.widget.LinearLayout")
